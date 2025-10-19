@@ -5,6 +5,8 @@ metadata:
   annotations:
     postgres-operator.crunchydata.com/autoCreateUserSchema: "true"
 spec:
+  supplementalGroups: 
+    - 65534
   postgresVersion: 17
   users:
     - name: hippo
