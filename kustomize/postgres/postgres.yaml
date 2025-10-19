@@ -12,6 +12,17 @@ spec:
         - zoo
   instances:
     - name: instance1
+      containers:
+      - name: perms-sidecar
+        image: registry.access.redhat.com/ubi9/ubi:latest
+        command: ["/bin/sh","-lc","sleep infinity"]
+        volumeMounts:
+        - name: pgdata
+          mountPath: /pgdata
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh","-lc","chmod -R g+rwX /pgdata || true"]
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
