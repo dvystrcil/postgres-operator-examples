@@ -20,6 +20,24 @@ spec:
         resources:
           requests:
             storage: 1Gi
+      podSpec:
+        initContainers:
+        - name: fix-permissions
+          image: registry.access.redhat.com/ubi9/ubi:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Fixing permissions on /pgdata..."
+              chown -R 26:26 /pgdata || true
+              chmod -R ug+rwX /pgdata || true
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: false
+          volumeMounts:
+          - name: pgdata
+            mountPath: /pgdata
   backups:
     pgbackrest:
       repos:
