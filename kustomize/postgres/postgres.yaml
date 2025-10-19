@@ -22,7 +22,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh","-lc","chown -R postgres:postgres /pgdata || true"]
+              command: ["/bin/sh","-lc","chown -R 26:26 /pgdata || true"]
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
