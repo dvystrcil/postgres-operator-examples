@@ -12,9 +12,6 @@ spec:
         - zoo
   instances:
     - name: instance1
-      podSecurityContext:
-        fsGroup: 26                   # postgres group in Crunchy images
-        fsGroupChangePolicy: "OnRootMismatch"
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
