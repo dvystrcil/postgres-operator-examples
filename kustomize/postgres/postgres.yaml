@@ -17,7 +17,7 @@ spec:
         image: registry.access.redhat.com/ubi9/ubi:latest
         command: ["/bin/sh","-lc","sleep infinity"]
         volumeMounts:
-        - name: pgdata
+        - name: postgres-data
           mountPath: /pgdata
         lifecycle:
           postStart:
