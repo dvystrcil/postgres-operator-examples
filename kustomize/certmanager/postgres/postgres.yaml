@@ -9,7 +9,7 @@ spec:
   customTLSSecret:
     name: hippo-tls
   instances:
-    - replicas: 2
+    - replicas: 1
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
