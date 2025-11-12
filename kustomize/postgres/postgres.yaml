@@ -13,6 +13,9 @@ spec:
     - name: owui
       databases:
         - owui
+    - name: obico
+      databases:
+        - obico
   instances:
     - name: instance1
       containers:
