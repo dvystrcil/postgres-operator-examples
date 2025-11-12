@@ -10,6 +10,9 @@ spec:
     - name: hippo
       databases:
         - zoo
+    - name: owui
+      databases:
+        - owui
   instances:
     - name: instance1
       containers:
