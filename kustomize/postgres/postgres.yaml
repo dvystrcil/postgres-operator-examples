@@ -16,6 +16,9 @@ spec:
     - name: obico
       databases:
         - obico
+    - name: firecrawl
+      databases:
+        - firecrawl
   instances:
     - name: instance1
       containers:
