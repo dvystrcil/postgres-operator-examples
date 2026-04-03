@@ -22,31 +22,32 @@ spec:
   instances:
     - name: instance1
       replicas: 1
-      containers:
-      - name: perms-sidecar
-        image: registry.access.redhat.com/ubi9/ubi:latest
-        command: ["/bin/sh","-lc","sleep infinity"]
-        volumeMounts:
-        - name: postgres-data
-          mountPath: /pgdata
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh","-lc","chown -R 26:26 /pgdata || true"]
+      initContainers:
+        - name: fix-pgdata-perms
+          image: registry.access.redhat.com/ubi9/ubi:latest
+          command: ["chown", "-R", "26:26", "/pgdata"]
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /pgdata
+          securityContext:
+            runAsUser: 0
       dataVolumeClaimSpec:
         accessModes:
-        - "ReadWriteOnce"
+          - ReadWriteOnce
         resources:
           requests:
             storage: 1Gi
   backups:
     pgbackrest:
       repos:
-      - name: repo1
-        volume:
-          volumeClaimSpec:
-            accessModes:
-            - "ReadWriteOnce"
-            resources:
-              requests:
-                storage: 1Gi
+        - name: repo1
+          schedules:
+            full: "0 1 * * 0"
+            incremental: "0 1 * * 1-6"
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
