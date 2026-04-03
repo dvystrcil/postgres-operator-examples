@@ -22,17 +22,17 @@ spec:
   instances:
     - name: instance1
       replicas: 1
-      # containers:
-      # - name: perms-sidecar
-      #   image: registry.access.redhat.com/ubi9/ubi:latest
-      #   command: ["/bin/sh","-lc","sleep infinity"]
-      #   volumeMounts:
-      #   - name: postgres-data
-      #     mountPath: /pgdata
-      #   lifecycle:
-      #     postStart:
-      #       exec:
-      #         command: ["/bin/sh","-lc","chown -R 26:26 /pgdata || true"]
+      containers:
+      - name: perms-sidecar
+        image: registry.access.redhat.com/ubi9/ubi:latest
+        command: ["/bin/sh","-lc","sleep infinity"]
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /pgdata
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh","-lc","chown -R 26:26 /pgdata || true"]
       dataVolumeClaimSpec:
         accessModes:
         - "ReadWriteOnce"
