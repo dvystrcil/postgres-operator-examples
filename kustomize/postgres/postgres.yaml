@@ -21,6 +21,7 @@ spec:
         - keycloak
   instances:
     - name: instance1
+      replicas: 1
       # containers:
       # - name: perms-sidecar
       #   image: registry.access.redhat.com/ubi9/ubi:latest
