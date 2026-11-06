@@ -1,9 +1,10 @@
 kind: Component
-# argocd-projects#55: every image the homelab runs is served from the private
-# Harbor project `crunchy` (byte-identical crane copies of the upstream digests;
-# Crunchy's free registry stops updating 2026-12-31 and has deleted tags before).
-# The rest (pgadmin4, PG15, PostGIS) stay upstream because nothing uses them and
-# they were never copied. Copy one into Harbor before switching it here.
+# argocd-projects#55: the RELATED_IMAGE_* defaults the homelab runs are served
+# from the private Harbor project `crunchy` (byte-identical crane copies of the
+# upstream digests; Crunchy's free registry stops updating 2026-12-31 and has
+# deleted tags before). The operator image stays upstream, pinned by digest
+# (see its entry). pgadmin4, PG15 and PostGIS stay upstream because nothing uses
+# them and they were never copied. Copy one into Harbor before switching it here.
 images:
 - name: image-pgadmin
   newName: registry.developers.crunchydata.com/crunchydata/crunchy-pgadmin4
@@ -17,9 +18,14 @@ images:
 - name: image-postgres-exporter
   newName: harbor.sirddail.net/crunchy/crunchy-postgres-exporter
   newTag: ubi9-0.17.1-2542
+# The operator itself stays upstream, pinned by digest: on a fresh cluster PGO
+# has to start before harbor-postgres exists, so it cannot need Harbor
+# (argocd-projects#55). Same digest as the Harbor copy. The tag is kept for
+# readability. This name also feeds RELATED_IMAGE_COLLECTOR.
 - name: image-postgres-operator-5.8
-  newName: harbor.sirddail.net/crunchy/postgres-operator
+  newName: registry.developers.crunchydata.com/crunchydata/postgres-operator
   newTag: ubi9-5.8.4-0
+  digest: sha256:bce76733df759ea9cecf7c09d4cc2276531b8140f4f996a998c3cccf1c3d162f
 - name: image-crunchy-postgres-15
   newName: registry.developers.crunchydata.com/crunchydata/crunchy-postgres
   newTag: ubi9-15.14-2542

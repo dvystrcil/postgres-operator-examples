@@ -17,7 +17,6 @@ resources:
 - ../crd
 - ../rbac/cluster
 - ../manager
-- pgo-harbor-pull-infisical-secret.yaml # homelab, argocd-projects#55
 
 components:
 - ../components/images-by-tag
@@ -31,9 +30,6 @@ patches:
     spec:
       template:
         spec:
-          # homelab, argocd-projects#55: the operator image comes from Harbor.
-          imagePullSecrets:
-          - name: pgo-harbor-pull
           containers:
           - name: operator
             env:
